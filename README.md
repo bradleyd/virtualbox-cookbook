@@ -22,7 +22,7 @@ Requirements
 ## Platform:
 
 * Mac OS X
-* Ubuntu and Debian, 64 bit (amd64/x86_64)
+* Ubuntu and Debian, 64 bit (amd64/x86\_64)
 
 Other platforms can be used but you'll need to modify the default recipe.
 
@@ -52,9 +52,9 @@ Otherwise, you can specify this one, perhaps in your role:
 The versioning in Ubuntu is slightly different - it's just the version suffix on
 the package name (e.g. virtualbox-4.0). The cookbook attributes of interest are:
 
-* `node['virtualbox`][`version`] - the version suffix of the package name,
+* `node['virtualbox']['version']` - the version suffix of the package name,
     `virtualbox-X.X`. Valid options at the moment are "3.2" and "4.0"
-* `node['virtualbox`][`open_source_edition`] - If false, adds Sun's repositroy
+* `node['virtualbox']['open_source_edition']` - If false, adds Sun's repositroy
     and installs the proprietary version (with extended USB support, among other
     things)
 
