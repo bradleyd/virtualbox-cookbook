@@ -23,7 +23,7 @@ case node['platform']
 when "mac_os_x"
   node.default['virtualbox']['version'] = "VirtualBox-4.0.8-71778"
 when "ubuntu","debian"
-  node.default['virtualbox']['version'] = "4.0"
+  node.default['virtualbox']['version'] = "4.1"
 end
 
 default['virtualbox']['url'] = ""
