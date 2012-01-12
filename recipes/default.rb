@@ -46,27 +46,23 @@ when "mac_os_x"
 
 when "ubuntu","debian"
 
-  if not node['virtualbox']['open_source_edition']
+  bash "apt-get update" do
+    code "apt-get update"
+    action :nothing
+  end
 
-    bash "apt-get update" do
-      code "apt-get update"
-      action :nothing
-    end
+  bash "add Oracle key" do
+    code "wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -"
+    action :nothing
+    notifies :run, resources(:bash => "apt-get update"), :immediately
+  end
 
-    bash "add Oracle key" do
-      code "wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -"
-      action :nothing
-      notifies :run, resources(:bash => "apt-get update"), :immediately
-    end
-
-    template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
-      source "oracle-virtualbox.list.erb"
-      mode 0644
-      notifies :run, resources(:bash => "add Oracle key"), :immediately
-    end
+  template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
+    source "oracle-virtualbox.list.erb"
+    mode 0644
+    notifies :run, resources(:bash => "add Oracle key"), :immediately
   end
 
   package "virtualbox-#{node['virtualbox']['version']}"
-
+  package "dkms"
 end
-
