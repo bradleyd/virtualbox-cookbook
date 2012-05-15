@@ -54,7 +54,7 @@ when "ubuntu","debian"
     end
 
     bash "add Oracle key" do
-      code "wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -"
+      code "wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | apt-key add -"
       action :nothing
       notifies :run, resources(:bash => "apt-get update"), :immediately
     end
