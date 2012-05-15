@@ -30,13 +30,13 @@ filename = "#{node['virtualbox']['version']}#{distfile}"
 url = node['virtualbox']['url'].empty? ? "#{node['virtualbox']['urlbase']}/#{filename}" : node['virtualbox']['url']
 target = "#{Chef::Config[:file_cache_path]}/#{filename}"
 
-sha256sum = "" # retrieve the sha256sums from the virtualbox mirror
-open("#{node['virtualbox']['urlbase']}/SHA256SUMS").each do |line|
-  sha256sum = line.split(" ")[0] if line =~ /#{distfile}/
-end
-
 case node['platform']
 when "mac_os_x"
+
+  sha256sum = "" # retrieve the sha256sums from the virtualbox mirror
+  open("#{node['virtualbox']['urlbase']}/SHA256SUMS").each do |line|
+    sha256sum = line.split(" ")[0] if line =~ /#{distfile}/
+  end
 
   dmg_package "Virtualbox" do
     source url
