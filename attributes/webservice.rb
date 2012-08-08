@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: virtualbox
-# Attributes:: default
+# Attributes:: webservice
 #
-# Copyright 2011, Joshua Timberman
+# Copyright 2012, Ringo De Smet
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,8 @@
 # limitations under the License.
 #
 
-default['virtualbox']['urlbase'] = "http://download.virtualbox.org/virtualbox/4.0.8"
-default['virtualbox']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i386"
-case node['platform']
-when "mac_os_x"
-  default['virtualbox']['version'] = "VirtualBox-4.0.8-71778"
-when "ubuntu","debian"
-  default['virtualbox']['version'] = "4.1"
-end
-
-default['virtualbox']['url'] = ""
-default['virtualbox']['open_source_edition'] = false
+# Settings for activating the included vboxweb-service
+default['virtualbox']['webservice']['log']['location'] = '/var/log/vboxwebsrv'
+default['virtualbox']['webservice']['log']['rotate'] = 5 # archived log files
+default['virtualbox']['webservice']['log']['size'] = 10485760 # 10 MByte
+default['virtualbox']['webservice']['log']['interval'] = 604800 # 1 week

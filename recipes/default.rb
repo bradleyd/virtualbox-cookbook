@@ -68,55 +68,5 @@ when "ubuntu","debian"
 
   package "virtualbox-#{node['virtualbox']['version']}"
 
-  if node['virtualbox']['systemservice']['enabled']
-
-    user 'virtualbox-systemservice-user' do
-      username node['virtualbox']['systemservice']['user']
-      gid 'vboxusers'
-      password data_bag_item('passwords','virtualbox-systemservice-user')['password']
-      home "/home/#{node['virtualbox']['systemservice']['user']}"
-      shell "/bin/bash"
-      system true
-      manage_home true
-    end
-
-    cookbook_file "/etc/init.d/vboxcontrol" do
-      source "vboxcontrol"
-      mode "0755"
-    end
-
-    directory "/etc/virtualbox" do
-      mode "0755"
-    end
-
-    unless FileTest.exists?("/etc/virtualbox/machines_enabled")
-      cookbook_file "/etc/virtualbox/machines_enabled" do
-        source "machines_enabled"
-        mode "0644"
-      end
-    end
-
-    host_interface = node[:network][:default_interface]
-    addresses = node[:network][:interfaces][host_interface][:addresses]
-    host_ip = 'unknown'
-    addresses.each do |ip, params|
-      host_ip = ip if params['family'].eql?('inet')
-    end
-
-    template "/etc/virtualbox/config" do
-      source "config.erb"
-      mode "0644"
-      variables(
-          :host_interface => host_interface,
-          :host_ip => host_ip
-      )
-    end
-
-    service "vboxcontrol" do
-      action [:enable, :start]
-    end
-
-  end
-
 end
 

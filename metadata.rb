@@ -9,6 +9,4 @@ version          "0.6.3"
   supports os
 end
 
-%w{apache2}.each do |cb|
-  suggests cb
-end
+depends "apache2", ">= 0.99.4"
