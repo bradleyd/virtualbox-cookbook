@@ -32,12 +32,12 @@ end
 
 # It is very hard to get vboxwebsrv to work correctly with password authentication
 # If anyone can get this working, feel free to submit a changed cookbook!
-# The command below works from a real command line, but not via Chef. Don't know why...
-#execute "Disable vboxwebsrv auth library" do
-#  command "VBoxManage setproperty websrvauthlibrary null"
-#  user "#{node['virtualbox']['user']}"
-#  action :run
-#end
+execute "Disable vboxwebsrv auth library" do
+  command "VBoxManage setproperty websrvauthlibrary null"
+  user "#{node['virtualbox']['user']}"
+  action :run
+  environment ({'HOME' => "/home/#{node['virtualbox']['user']}"})
+end
 
 service "vboxweb-service" do
   action [:enable, :start]

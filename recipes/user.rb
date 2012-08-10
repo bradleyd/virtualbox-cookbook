@@ -20,6 +20,14 @@
 # For the user to be created successfully, a data bag item with the MD5 hashed password
 # needs to be added.
 
+include_recipe "apt"
+
+p = package "libshadow-ruby1.8" do
+  action :nothing
+end
+
+p.run_action(:install)
+
 user 'virtualbox-user' do
   username node['virtualbox']['user']
   gid node['virtualbox']['group']

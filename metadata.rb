@@ -10,3 +10,4 @@ version          "0.6.3"
 end
 
 depends "apache2", ">= 0.99.4"
+depends "apt"
