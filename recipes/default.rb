@@ -24,6 +24,8 @@ when "mac_os_x"
   distfile = "-OSX.dmg"
 when "ubuntu","debian"
   distfile = "~#{node['platform'].capitalize}~#{node['lsb']['codename']}_#{node['virtualbox']['arch']}.deb"
+when "windows"                                                                       
+ distfile = "-Win.exe"
 end
 
 filename = "#{node['virtualbox']['version']}#{distfile}"
@@ -43,6 +45,15 @@ when "mac_os_x"
     type "mpkg"
     checksum sha256sum
   end
+
+when "windows"                                                                       
+  windows_package "Oracle VM VirtualBox 4.1.18" do                                   
+    action :install                                                                  
+    source url                                                                       
+    checksum sha256sum                                                               
+    installer_type :custom                                                           
+    options "-s"                                                                     
+  end                                                                                
 
 when "ubuntu","debian"
 
