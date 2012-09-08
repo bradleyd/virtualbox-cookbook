@@ -47,7 +47,9 @@ when "mac_os_x"
   end
 
 when "windows"                                                                       
-  windows_package "Oracle VM VirtualBox 4.1.18" do                                   
+  win_pkg_version = node['virtualbox']['urlbase'].split("/").last
+  Chef::Log.debug("Inspecting windows package version: #{win_pkg_version.inspect}")
+  windows_package "Oracle VM VirtualBox #{win_pkg_version}" do                                   
     action :install                                                                  
     source url                                                                       
     checksum sha256sum                                                               
