@@ -24,7 +24,7 @@ when "mac_os_x"
   distfile = "-OSX.dmg"
 when "ubuntu","debian"
   distfile = "~#{node['platform'].capitalize}~#{node['lsb']['codename']}_#{node['virtualbox']['arch']}.deb"
-when "windows"                                                                       
+when "windows"
  distfile = "-Win.exe"
 end
 
@@ -46,40 +46,30 @@ when "mac_os_x"
     checksum sha256sum
   end
 
-when "windows"                                                                       
+when "windows"
   win_pkg_version = node['virtualbox']['urlbase'].split("/").last
   Chef::Log.debug("Inspecting windows package version: #{win_pkg_version.inspect}")
-  windows_package "Oracle VM VirtualBox #{win_pkg_version}" do                                   
-    action :install                                                                  
-    source url                                                                       
-    checksum sha256sum                                                               
-    installer_type :custom                                                           
-    options "-s"                                                                     
-  end                                                                                
+  windows_package "Oracle VM VirtualBox #{win_pkg_version}" do
+    action :install
+    source url
+    checksum sha256sum
+    installer_type :custom
+    options "-s"
+  end
 
 when "ubuntu","debian"
 
-  if not node['virtualbox']['open_source_edition']
+  bash "apt-get update" do
+    code "apt-get update"
+    action :nothing
+  end
 
-    bash "apt-get update" do
-      code "apt-get update"
-      action :nothing
-    end
-
-    bash "add Oracle key" do
-      code "wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | apt-key add -"
-      action :nothing
-      notifies :run, resources(:bash => "apt-get update"), :immediately
-    end
-
-    template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
-      source "oracle-virtualbox.list.erb"
-      mode 0644
-      notifies :run, resources(:bash => "add Oracle key"), :immediately
-    end
+  template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
+    source "oracle-virtualbox.list.erb"
+    mode 0644
+    notifies :run, resources(:bash => "add Oracle key"), :immediately
   end
 
   package "virtualbox-#{node['virtualbox']['version']}"
-
+  package "dkms"
 end
-
