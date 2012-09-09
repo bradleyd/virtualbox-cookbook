@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: virtualbox
-# Attributes:: default
+# Recipe:: user
 #
-# Copyright 2011, Joshua Timberman
+# Copyright 2012, Ringo De Smet
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,23 @@
 # limitations under the License.
 #
 
-default['virtualbox']['urlbase'] = "http://download.virtualbox.org/virtualbox/4.0.8"
-default['virtualbox']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i386"
-case node['platform']
-when "mac_os_x", "windows"
-  default['virtualbox']['version'] = "VirtualBox-4.0.8-71778"
-when "ubuntu","debian"
-  default['virtualbox']['version'] = "4.1"
+# For the user to be created successfully, a data bag item with the MD5 hashed password
+# needs to be added.
+
+include_recipe "apt"
+
+p = package "libshadow-ruby1.8" do
+  action :nothing
 end
 
-default['virtualbox']['url'] = ""
-default['virtualbox']['open_source_edition'] = false
+p.run_action(:install)
+
+user 'virtualbox-user' do
+  username node['virtualbox']['user']
+  gid node['virtualbox']['group']
+  password data_bag_item('passwords','virtualbox-user')['password']
+  home "/home/#{node['virtualbox']['user']}"
+  shell "/bin/bash"
+  system true
+  manage_home true
+end

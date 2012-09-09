@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: virtualbox
-# Attributes:: default
+# Attributes:: webportal
 #
-# Copyright 2011, Joshua Timberman
+# Copyright 2012, Ringo De Smet
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,6 @@
 # limitations under the License.
 #
 
-default['virtualbox']['urlbase'] = "http://download.virtualbox.org/virtualbox/4.0.8"
-default['virtualbox']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i386"
-case node['platform']
-when "mac_os_x", "windows"
-  default['virtualbox']['version'] = "VirtualBox-4.0.8-71778"
-when "ubuntu","debian"
-  default['virtualbox']['version'] = "4.1"
-end
-
-default['virtualbox']['url'] = ""
-default['virtualbox']['open_source_edition'] = false
+# Map major virtualbox version numbers to the phpvirtualbox build numbers
+# https://code.google.com/p/phpvirtualbox/downloads/list
+default['virtualbox']['webportal']['versions'] = { '4.0' => '7', '4.1' => '9' }
