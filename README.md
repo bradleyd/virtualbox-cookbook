@@ -6,6 +6,13 @@ Installs Virtualbox on OS X or Debian/Ubuntu
 Changes
 =======
 
+## v0.7.0:
+
+* Add Windows support
+* No more "open source edition" - extension pack must now be downloaded
+  separately from Oracle.
+* Optionally install PHP web porta.
+
 ## v0.6.0:
 
 * Install via Sun's package archive in Ubuntu
