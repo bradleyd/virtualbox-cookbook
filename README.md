@@ -23,12 +23,16 @@ Requirements
 
 * Mac OS X
 * Ubuntu and Debian, 64 bit (amd64/x86\_64)
+* Windows
 
 Other platforms can be used but you'll need to modify the default recipe.
 
 ## Cookbooks
 
+You'll also need the respective package manager cookbook for your platform:
+
 * dmg (for OS X installation)
+* apt (for Ubuntu and Debian)
 
 Attributes
 ==========
