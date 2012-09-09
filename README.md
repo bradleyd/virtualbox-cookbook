@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs Virtualbox on OS X or Debian/Ubuntu
+Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 
 Changes
 =======
@@ -77,6 +77,13 @@ Include the virtualbox default recipe in a role run list. If you want to install
     name "role_for_vbox"
     default_attributes("virtualbox" => { "url" => "http://url.to/your/vbox.pkg" })
     run_list("recipe[virtualbox]")
+
+Contributions
+======
+
+The source for this cookbook is hosted on
+[GitHub](https://github.com/peplin/virtualbox-cookbook). If you have any issues
+with this cookbook, please follow up there.
 
 License and Author
 ==================
