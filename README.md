@@ -6,6 +6,10 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## v0.7.2:
+
+* Update OS X installer to use new pkg format - thanks josephholsten.
+
 ## v0.7.0:
 
 * Add Windows support
