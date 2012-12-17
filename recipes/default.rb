@@ -40,9 +40,9 @@ when "mac_os_x"
     sha256sum = line.split(" ")[0] if line =~ /#{distfile}/
   end
 
-  dmg_package "Virtualbox" do
+  dmg_package "VirtualBox" do
     source url
-    type "mpkg"
+    type "pkg"
     checksum sha256sum
   end
 
