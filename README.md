@@ -6,6 +6,10 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## PENDING
+
+
+
 ## v0.7.2:
 
 * Update OS X installer to use new pkg format - thanks josephholsten.
@@ -30,60 +34,108 @@ Changes
 Requirements
 ============
 
+Requires Chef version 0.10.10+ and Ohai 0.6.10 for `platform_family`
+attribute.
+
 ## Platform:
 
 * Mac OS X
 * Ubuntu and Debian, 64 bit (amd64/x86\_64)
+* RHEL/CentOS (tested on 6.3)
 * Windows
 
-Other platforms can be used but you'll need to modify the default recipe.
+Other related platform family distributions may work.
 
 ## Cookbooks
 
 You'll also need the respective package manager cookbook for your platform:
 
 * dmg (for OS X installation)
-* apt (for Ubuntu and Debian)
+* apt (for Debian family)
+* yum (for RHEL family)
+* windows (for Windows installation)
+
+These are dependencies to ensure that the recipes work when using Chef
+Solo, and because it's the right thing to do.
 
 Attributes
 ==========
 
-## Mac OS X
+* `node['virtualbox']['url']` - URL to the VirtualBox download file.
+  Used on Windows and OS X only to the ".exe" or ".dmg," respectively.
+* `node['virtualbox']['version']` - Version of VirtualBox package to
+  install. On Windows, this is automatically detected with the
+  Vbox::Helpers module as the three-dotted version (e.g., 4.2.8). On
+  Debian and RHEL platforms, this is the version suffix for the
+  package to ensure that the correct version from the Virtualbox
+  repository is installed (e.g., 4.2).
 
-The source file in the URL for VirtualBox's download mirror is inconsistent between different OS releases, so this cookbook smashes the URL together with a few attributes, and some string concatenation in the recipe. Sorry about that. You can always assign the URL if you know which file you want through the "url" attribute, and the recipe will do the right thing, though by default this attribute is an empty string.
+Deprecated/unused attributes:
 
-The following attributes are used to build up the full source URL:
+* `node['virtualbox']['urlbase']` - This is automatically
+  used/calculated in the Vbox::Helpers module and not used elsewhere.
+* `node['virtualbox']['arch']` - This was used for architecture
+  specific packages for Linux distributions, which is deprecated in
+  favor of the package repository.
+* `node['virtualbox']['open_source_edition']` - This was not used in
+  any recipe / template in this cookbook and has been removed.
 
-* `node['virtualbox']['urlbase']` - Base URL through the directory on the VirtualBox mirror. Default is on virtualbox.org's mirror, in the 4.0.8 directory.
-* `node['virtualbox']['version']` - This is the base virtualbox file name up through the version. Slightly misleading, but there you have it.
-* `node['virtualbox']['arch']` - Used to determine which architecture in the filename, for Ubuntu/Debian distributions.
+Recipes
+=======
 
-Otherwise, you can specify this one, perhaps in your role:
+# default
 
-* `node['virtualbox']['url]` - The full URL of the virtualbox download. Use this if you want to specify a particular file to download. Default is an empty string. If this is a non-empty string, the recipe will attempt to use it as the download source.
+This recipe will install VirtualBox for supported platforms. On
+Windows and OS X, the file specified by the url attribute (see above)
+will be downloaded and installed. On Linux (Debian and RHEL families
+are supported), the appropriate OS package repository will be added
+(apt or yum, respectively), along with Oracle's VirtualBox package
+signing key, and the package installed from the repository. The
+packages seem to handle all the kernel module recompilation, so this
+recipe doesn't handle that.
 
-## Ubuntu
+# Other recipes
 
-The versioning in Ubuntu is slightly different - it's just the version suffix on
-the package name (e.g. virtualbox-4.0). The cookbook attributes of interest are:
+The following recipes are also available, but have not yet been documented.
 
-* `node['virtualbox']['version']` - the version suffix of the package name,
-    `virtualbox-X.X`. Valid options at the moment are "3.2" and "4.0"
-* `node['virtualbox']['open_source_edition']` - If false, adds Sun's repositroy
-    and installs the proprietary version (with extended USB support, among other
-    things)
+* systemservice
+* user
+* webportal
+* webservice
+
+Helper Library
+==============
+
+The Vbox::Helpers module includes two methods.
+
+* `vbox_sha256sum` - Given an absolute URL to the VirtualBox download
+  file (.exe or .dmg), the SHA256 checksum will be retrieved from the
+  VirtualBox site. This assumes the default URLs from virtualbox.org's
+  download site, and may be quite brittle if you're hosting your own
+  packages.
+
+* `vbox_version` - Given an absolute URL to the download file, the
+  version is calculated. This is used on Windows systems because the
+  "package" name in Windows includes the version.
 
 Usage
 =====
 
-Include the virtualbox default recipe in a role run list. If you want to install from a different source URL, provide it with the url attribute, such as:
+Include the virtualbox default recipe in a role run list. If you want
+to install from a different source URL, provide it with the url
+attribute and the version if the Vbox::Helpers library cannot determine
+it, such as:
 
     name "role_for_vbox"
-    default_attributes("virtualbox" => { "url" => "http://url.to/your/vbox.pkg" })
+    default_attributes(
+      "virtualbox" => {
+        "url" => "http://url.to/your/vbox.pkg",
+        "version" => "4.2"
+      })
     run_list("recipe[virtualbox]")
 
 Contributions
-======
+=============
 
 The source for this cookbook is hosted on
 [GitHub](https://github.com/peplin/virtualbox-cookbook). If you have any issues
@@ -92,7 +144,10 @@ with this cookbook, please follow up there.
 License and Author
 ==================
 
-* Copyright 2011, Joshua Timberman <cookbooks@housepub.org>
+* Author: Joshua Timberman <cookbooks@housepub.org>
+* Author: Ringo De Smet
+
+* Copyright 2011-2013, Joshua Timberman <cookbooks@housepub.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
