@@ -8,7 +8,13 @@ Changes
 
 ## PENDING
 
-
+* Use platform_family attribute to expand platform support.
+* Use Oracle's VirtualBox package repositories for Debian / RHEL, and
+  the Opscode apt/yum cookbook resources accordingly.
+* Add Vbox::Helpers module in libraries/.
+* Add additional platforms supported
+* Add dependencies on required per-platform cookbooks (required for
+ Chef 11's chef-solo).
 
 ## v0.7.2:
 
