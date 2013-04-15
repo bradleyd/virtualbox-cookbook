@@ -2,7 +2,7 @@
 # Cookbook Name:: virtualbox
 # Recipe:: default
 #
-# Copyright 2011, Joshua Timberman
+# Copyright 2011-2013, Joshua Timberman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,59 +17,54 @@
 # limitations under the License.
 #
 
-require 'open-uri'
+case node['platform_family']
+when 'mac_os_x'
 
-case node['platform']
-when "mac_os_x"
-  distfile = "-OSX.dmg"
-when "ubuntu","debian"
-  distfile = "~#{node['platform'].capitalize}~#{node['lsb']['codename']}_#{node['virtualbox']['arch']}.deb"
-when "windows"
- distfile = "-Win.exe"
-end
+  sha256sum = vbox_sha256sum(node['virtualbox']['url'])
 
-filename = "#{node['virtualbox']['version']}#{distfile}"
-url = node['virtualbox']['url'].empty? ? "#{node['virtualbox']['urlbase']}/#{filename}" : node['virtualbox']['url']
-target = "#{Chef::Config[:file_cache_path]}/#{filename}"
-
-case node['platform']
-when "mac_os_x"
-
-  sha256sum = "" # retrieve the sha256sums from the virtualbox mirror
-  open("#{node['virtualbox']['urlbase']}/SHA256SUMS").each do |line|
-    sha256sum = line.split(" ")[0] if line =~ /#{distfile}/
-  end
-
-  dmg_package "VirtualBox" do
-    source url
-    type "pkg"
+  dmg_package 'VirtualBox' do
+    source node['virtualbox']['url']
     checksum sha256sum
+    type 'mpkg'
   end
 
-when "windows"
-  win_pkg_version = node['virtualbox']['urlbase'].split("/").last
+when 'windows'
+
+  sha256sum = vbox_sha256sum(node['virtualbox']['url'])
+  win_pkg_version = node['virtualbox']['version']
   Chef::Log.debug("Inspecting windows package version: #{win_pkg_version.inspect}")
+
   windows_package "Oracle VM VirtualBox #{win_pkg_version}" do
     action :install
-    source url
+    source node['virtualbox']['url']
     checksum sha256sum
     installer_type :custom
     options "-s"
   end
 
-when "ubuntu","debian"
+when 'debian'
 
-  bash "apt-get update" do
-    code "apt-get update"
-    action :nothing
-  end
-
-  template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
-    source "oracle-virtualbox.list.erb"
-    mode 0644
-    notifies :run, resources(:bash => "add Oracle key"), :immediately
+  apt_repository 'oracle-virtualbox' do
+    uri 'http://download.virtualbox.org/virtualbox/debian'
+    key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+    distribution node['lsb']['codename']
+    components ['contrib']
   end
 
   package "virtualbox-#{node['virtualbox']['version']}"
-  package "dkms"
+  package 'dkms'
+
+when 'rhel'
+
+  yum_key 'oracle-virtualbox' do
+    url 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+    action :add
+  end
+
+  yum_repository 'oracle-virtualbox' do
+    description 'Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox'
+    url 'http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch'
+  end
+
+  package "VirtualBox-#{node['virtualbox']['version']}"
 end

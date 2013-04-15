@@ -18,14 +18,15 @@
 #
 
 
-default['virtualbox']['urlbase'] = "http://download.virtualbox.org/virtualbox/4.2.4"
-default['virtualbox']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? "amd64" : "i386"
-case node['platform']
-when "mac_os_x", "windows"
-  default['virtualbox']['version'] = 'VirtualBox-4.2.4-81684'
-when "ubuntu","debian"
-  default['virtualbox']['version'] = "4.1"
-end
+default['virtualbox']['url'] = ''
+default['virtualbox']['version'] = ''
 
-default['virtualbox']['url'] = ""
-default['virtualbox']['open_source_edition'] = false
+case node['platform_family']
+when 'mac_os_x'
+  default['virtualbox']['url'] = 'http://download.virtualbox.org/virtualbox/4.2.8/VirtualBox-4.2.8-83876-OSX.dmg'
+when 'windows'
+  default['virtualbox']['url'] = 'http://download.virtualbox.org/virtualbox/4.2.8/VirtualBox-4.2.8-83876-Win.exe'
+  default['virtualbox']['version'] = Vbox::Helpers.vbox_version(node['virtualbox']['url'])
+when 'debian', 'rhel'
+  default['virtualbox']['version'] = '4.2'
+end
