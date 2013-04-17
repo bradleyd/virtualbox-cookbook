@@ -6,7 +6,7 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
-## PENDING
+## v1.0
 
 * Use platform_family attribute to expand platform support.
 * Use Oracle's VirtualBox package repositories for Debian / RHEL, and
@@ -152,6 +152,7 @@ License and Author
 
 * Author: Joshua Timberman <cookbooks@housepub.org>
 * Author: Ringo De Smet
+* Author: Chris Peplin
 
 * Copyright 2011-2013, Joshua Timberman <cookbooks@housepub.org>
 
