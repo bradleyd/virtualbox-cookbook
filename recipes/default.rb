@@ -25,7 +25,7 @@ when 'mac_os_x'
   dmg_package 'VirtualBox' do
     source node['virtualbox']['url']
     checksum sha256sum
-    type 'mpkg'
+    type 'pkg'
   end
 
 when 'windows'
