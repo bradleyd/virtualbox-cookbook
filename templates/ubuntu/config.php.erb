@@ -9,7 +9,7 @@ class phpVBoxConfig {
 
 /* Username / Password for system user that runs VirtualBox */
 var $username = '<%= node['virtualbox']['user'] %>';
-var $password = '';
+var $password = '<%= password %>';
 
 /* SOAP URL of vboxwebsrv (not phpVirtualBox's URL) */
 var $location = 'http://127.0.0.1:18083/';
@@ -62,7 +62,7 @@ var $servers = array(
 // Preview box pixel width
 #var $previewWidth = 180;
 
-// Change default preview aspect ratio to 1. 
+// Change default preview aspect ratio to 1.
 // http://www.wikipedia.org/wiki/Aspect_ratio_%28image%29#Previous_and_presently_used_aspect_ratios
 #var $previewAspectRatio = 1.6;
 
@@ -113,11 +113,11 @@ var $consoleKeyboardLayout = 'EN';
 var $nicMax = 4;
 
 /* Enable advanced configuration items (normally hidden in the VirtualBox GUI)
- * Note that some of these items may not be translated to languages other than english. 
+ * Note that some of these items may not be translated to languages other than english.
  */
 #var $enableAdvancedConfig = true;
 
-/* 
+/*
 	Sorting VM List options
 
 	var $vmListSort = 'name'; // Default. Sort VM list by VM name
@@ -126,9 +126,9 @@ var $nicMax = 4;
 	var $vmListSort = 'stateChange'; // Order by VMs' last state change
 	var $vmListSort = 'os'; // Sort by OS type
 	var $vmListSort = 'function(..){...}' // uses custom javascript function. Example follows:
-	
+
 	// This places running VMs at the top of the list, then orders by
-	// the last VM state change, then by name. 
+	// the last VM state change, then by name.
 	var $vmListSort = 'function(a,b) {
 		if(a.state == "Running" && b.state != "Running") return -1;
 		if(b.state == "Running" && a.state != "Running") return 1;
@@ -136,9 +136,9 @@ var $nicMax = 4;
 		if(b.lastStateChange < a.lastStateChange) return -1;
 		return strnatcasecmp(a.name,b.name);
 	}';
-	
+
 	NOTE: In a multi-user situation, 'gui' is probably a bad idea.
-	
+
 */
 #var $vmListSort = 'name';
 
@@ -153,13 +153,13 @@ var $authLib = 'Builtin';
 
 
 // Allow VDE network configuration. This must be supported by the underlying VirtualBox installation!
-#var $enableVDE = true; 
+#var $enableVDE = true;
 
 // Disable setting SATA controllers port count to the max port number found when saving VMs.
 #var $disableSataPortCount = true;
 
 /* Enable Parallel Port configuration - EXPERIMENTAL
-LPT support may or may not work for you. 
+LPT support may or may not work for you.
 
 !!! VirtualBox LPT support only works in Linux. !!!
 

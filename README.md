@@ -102,12 +102,38 @@ recipe doesn't handle that.
 
 # Other recipes
 
-The following recipes are also available, but have not yet been documented.
+## user
 
-* systemservice
-* user
-* webportal
-* webservice
+Creates a user to run the system service and web service as.  This recipe
+is implicitly included in the "webservice", "webportal", and "systemservice"
+recipes.
+
+Attributes:
+
+* `node['virtualbox']['user']` - User name to create.  Defaults to `virtualbox`.
+* `node['virtualbox']['group']` - Group for user.  Defaults to `vboxusers`.
+
+Databags:
+
+* `password/virtualbox-user` - Must contain a "password" attribute which sets
+  the password for the VirtualBox user.
+
+## systemservice
+
+Creates a system service that will run virtual machines at startup.  Add UIDs of
+any machines you want started to /etc/virtualbox/machines_enabled.
+
+## webservice
+
+Installs a web service which allows remote control of VirtualBox.  This is
+implicity included in the "webportal" recipe.  Note that the webservice is
+installed with no authentication, so make sure you have a firewall set up
+or that you are on a trusted network!
+
+## webportal
+
+Installs apache2 and a [phpvirtualbox](http://sourceforge.net/projects/phpvirtualbox/)
+to provide a web console to manage VirtualBox.
 
 Helper Library
 ==============
