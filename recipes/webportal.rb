@@ -40,11 +40,14 @@ end
 bash "extract-phpvirtualbox" do
   code <<-EOH
   cd /tmp
+  rm -rf phpvirtualbox
+  mkdir phpvirtualbox
+  cd phpvirtualbox
   unzip #{Chef::Config['file_cache_path']}/phpvirtualbox-#{phpvirtualbox_version}.zip
-  cd phpvirtualbox-#{phpvirtualbox_version}
-  mv * /var/www
+  mkdir -p #{node['virtualbox']['webportal']['installdir']}
+  mv * #{node['virtualbox']['webportal']['installdir']}
   cd ..
-  rm -rf phpvirtualbox-#{phpvirtualbox_version}
+  rm -rf phpvirtualbox
   EOH
 end
 
@@ -56,3 +59,5 @@ template "/var/www/config.php" do
       :password => data_bag_item('passwords','virtualbox-user')['password']
   )
 end
+
+

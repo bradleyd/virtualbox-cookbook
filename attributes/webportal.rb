@@ -25,3 +25,5 @@ default['virtualbox']['webportal']['versions'] = {
     '4.2' => '8',
     '4.3' => '0'
 }
+
+default['virtualbox']['webportal']['installdir'] = "/var/www"
