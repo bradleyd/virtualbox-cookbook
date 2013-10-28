@@ -54,4 +54,5 @@ template "/var/www/config.php" do
   notifies :restart, "service[apache2]", :immediately
   variables(
       :password => data_bag_item('passwords','virtualbox-user')['password']
+  )
 end
