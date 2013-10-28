@@ -29,7 +29,7 @@ phpvirtualbox_build = node['virtualbox']['webportal']['versions'][vbox_version]
 phpvirtualbox_version = "#{vbox_version}-#{phpvirtualbox_build}"
 
 remote_file "#{Chef::Config['file_cache_path']}/phpvirtualbox-#{phpvirtualbox_version}.zip" do
-  source "http://phpvirtualbox.googlecode.com/files/phpvirtualbox-#{phpvirtualbox_version}.zip"
+  source "http://downloads.sourceforge.net/project/phpvirtualbox/phpvirtualbox-#{phpvirtualbox_version}.zip"
   mode "0644"
 end
 

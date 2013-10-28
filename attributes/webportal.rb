@@ -19,4 +19,9 @@
 
 # Map major virtualbox version numbers to the phpvirtualbox build numbers
 # https://code.google.com/p/phpvirtualbox/downloads/list
-default['virtualbox']['webportal']['versions'] = { '4.0' => '7', '4.1' => '9' }
+default['virtualbox']['webportal']['versions'] = {
+    '4.0' => '7',
+    '4.1' => '9',
+    '4.2' => '8',
+    '4.3' => '0'
+}
