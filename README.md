@@ -6,6 +6,10 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## v1.0.1
+
+* Update install source for phpvirtualbox.
+
 ## v1.0
 
 * Use platform_family attribute to expand platform support.
