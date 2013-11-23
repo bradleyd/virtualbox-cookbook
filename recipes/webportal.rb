@@ -57,7 +57,7 @@ bash "enable-apache2-default-site" do
   end
 end
 
-template "/var/www/config.php" do
+template "#{node['virtualbox']['webportal']['installdir']}/config.php" do
   source "config.php.erb"
   mode "0644"
   notifies :restart, "service[apache2]", :immediately
