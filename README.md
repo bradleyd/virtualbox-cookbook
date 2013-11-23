@@ -9,6 +9,7 @@ Changes
 ## v1.0.2
 
 * Changed libshadow-ruby18 dependency to ruby-shadow gem
+* Changed phpVirtualBox password to use "rawpassword" value from data bag
 
 ## v1.0.1
 

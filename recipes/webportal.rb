@@ -56,7 +56,7 @@ template "/var/www/config.php" do
   mode "0644"
   notifies :restart, "service[apache2]", :immediately
   variables(
-      :password => data_bag_item('passwords','virtualbox-user')['password']
+      :password => data_bag_item('passwords','virtualbox-user')['rawpassword']
   )
 end
 
