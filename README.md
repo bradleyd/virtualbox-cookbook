@@ -6,6 +6,10 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## v1.0.2
+
+* Changed libshadow-ruby18 dependency to ruby-shadow gem
+
 ## v1.0.1
 
 * Update install source for phpvirtualbox.
