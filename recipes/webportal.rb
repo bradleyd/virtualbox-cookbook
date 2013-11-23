@@ -53,7 +53,13 @@ end
 
 bash "enable-apache2-default-site" do
   if node['virtualbox']['webportal']['enable-apache2-default-site'] then
-    code "ln -s /etc/apache2/sites-available/default /etc/apache2/sites-enabled/default"
+    code <<-EOH
+      if [ ! -f /etc/apache2/sites-enabled/default ]; then
+        ln -s /etc/apache2/sites-available/default /etc/apache2/sites-enabled/default
+      else
+        exit 0
+      fi
+    EOH
   end
 end
 
