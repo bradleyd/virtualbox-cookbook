@@ -10,6 +10,7 @@ Changes
 
 * Changed libshadow-ruby18 dependency to ruby-shadow gem
 * Changed phpVirtualBox password to use "rawpassword" value from data bag
+* Added attribute: node['virtualbox']['webportal']['enable-apache2-default-site']
 
 ## v1.0.1
 

@@ -27,3 +27,4 @@ default['virtualbox']['webportal']['versions'] = {
 }
 
 default['virtualbox']['webportal']['installdir'] = "/var/www"
+default['virtualbox']['webportal']['enable-apache2-default-site'] = false

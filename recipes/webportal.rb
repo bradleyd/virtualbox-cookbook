@@ -51,6 +51,12 @@ bash "extract-phpvirtualbox" do
   EOH
 end
 
+bash "enable-apache2-default-site" do
+  if node['virtualbox']['webportal']['enable-apache2-default-site'] then
+    code "ln -s /etc/apache2/sites-available/default /etc/apache2/sites-enabled/default"
+  end
+end
+
 template "/var/www/config.php" do
   source "config.php.erb"
   mode "0644"
