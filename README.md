@@ -6,6 +6,13 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## v1.0.2
+
+* Changed libshadow-ruby18 dependency to ruby-shadow gem
+* Changed phpVirtualBox password to use "rawpassword" value from data bag
+* Added attribute: node['virtualbox']['webportal']['enable-apache2-default-site']
+* Fixed config.php installation directory to use node['virtualbox']['webportal']['installdir']
+
 ## v1.0.1
 
 * Update install source for phpvirtualbox.

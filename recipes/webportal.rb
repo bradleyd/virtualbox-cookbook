@@ -51,12 +51,24 @@ bash "extract-phpvirtualbox" do
   EOH
 end
 
-template "/var/www/config.php" do
+bash "enable-apache2-default-site" do
+  if node['virtualbox']['webportal']['enable-apache2-default-site'] then
+    code <<-EOH
+      if [ ! -f /etc/apache2/sites-enabled/default ]; then
+        ln -s /etc/apache2/sites-available/default /etc/apache2/sites-enabled/default
+      else
+        exit 0
+      fi
+    EOH
+  end
+end
+
+template "#{node['virtualbox']['webportal']['installdir']}/config.php" do
   source "config.php.erb"
   mode "0644"
   notifies :restart, "service[apache2]", :immediately
   variables(
-      :password => data_bag_item('passwords','virtualbox-user')['password']
+      :password => data_bag_item('passwords','virtualbox-user')['rawpassword']
   )
 end
 

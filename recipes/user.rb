@@ -22,11 +22,8 @@
 
 include_recipe "apt"
 
-p = package "libshadow-ruby1.8" do
-  action :nothing
-end
-
-p.run_action(:install)
+package "build-essential"
+gem_package "ruby-shadow"
 
 user 'virtualbox-user' do
   username node['virtualbox']['user']
