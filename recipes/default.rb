@@ -58,7 +58,7 @@ when 'rhel', 'fedora'
 
   yum_repository 'oracle-virtualbox' do
     description "#{node['platform_family']} $releasever - $basearch - Virtualbox" 
-    url "http://download.virtuablox.org/virtualbox/rpm#{node['platform_family']}/$releasever/$basearch"
+    url "http://download.virtualbox.org/virtualbox/rpm/#{node['platform_family']}/$releasever/$basearch"
     gpgcheck true
     gpgkey 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
   end
