@@ -199,6 +199,7 @@ License and Author
 * Author: Joshua Timberman <cookbooks@housepub.org>
 * Author: Ringo De Smet
 * Author: Chris Peplin
+* Author: Eric G. Wolfe <eric.wolfe@gmail.com>
 
 * Copyright 2011-2013, Joshua Timberman <cookbooks@housepub.org>
 
