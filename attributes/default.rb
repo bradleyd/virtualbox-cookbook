@@ -27,6 +27,6 @@ when 'mac_os_x'
 when 'windows'
   default['virtualbox']['url'] = 'http://download.virtualbox.org/virtualbox/4.2.12/VirtualBox-4.2.12-84980-Win.exe'
   default['virtualbox']['version'] = Vbox::Helpers.vbox_version(node['virtualbox']['url'])
-when 'debian', 'rhel'
-  default['virtualbox']['version'] = '4.2'
+when 'debian', 'rhel', 'fedora'
+  default['virtualbox']['version'] = '4.3'
 end

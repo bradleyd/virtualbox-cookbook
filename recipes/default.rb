@@ -54,17 +54,15 @@ when 'debian'
   package "virtualbox-#{node['virtualbox']['version']}"
   package 'dkms'
 
-when 'rhel'
-
-  yum_key 'oracle-virtualbox' do
-    url 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
-    action :add
-  end
+when 'rhel', 'fedora'
 
   yum_repository 'oracle-virtualbox' do
-    description 'Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox'
-    url 'http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch'
+    description "#{node['platform_family']} $releasever - $basearch - Virtualbox" 
+    url "http://download.virtualbox.org/virtualbox/rpm/#{node['platform_family']}/$releasever/$basearch"
+    gpgcheck true
+    gpgkey 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
   end
 
   package "VirtualBox-#{node['virtualbox']['version']}"
+
 end
