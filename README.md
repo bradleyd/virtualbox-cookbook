@@ -126,8 +126,14 @@ recipes.
 
 #### Databags:
 
-* `password/virtualbox-user` - Must contain a "password" attribute which sets
+* `passwords/virtualbox-user` - Must contain a "password" attribute which sets
   the password for the VirtualBox user.
+
+A sample data bag looks like:
+    {
+      "id" : "virtualbox-user",
+      "password" : "virtualbox"
+    }
 
 ## systemservice
 
