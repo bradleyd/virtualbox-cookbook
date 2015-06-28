@@ -6,6 +6,9 @@ Installs Virtualbox on OS X, Debian/Ubuntu or Windows.
 Changes
 =======
 
+## v1.0.4
+* Add chefignore
+
 ## v1.0.3
 
 * Update `yum` dependency to version 3
